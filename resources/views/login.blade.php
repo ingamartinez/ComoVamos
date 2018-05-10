@@ -3,8 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-    <meta name="author" content="Coderthemes">
+    <meta name="description" content="Plataforma para verificación de Incentivos Gross">
+    <meta name="author" content="Alejandro Martinez - Amcom SA">
+
+    <meta property="og:title" content="Amcom SA">
+    <meta property="og:image" content="{{asset('images/amcom_logo.png')}}">
+    <meta property="og:description" content="Plataforma para verificación de Incentivos Gross">
 
     <!-- App Favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
