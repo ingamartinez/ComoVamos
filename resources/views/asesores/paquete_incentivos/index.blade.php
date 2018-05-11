@@ -32,7 +32,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="idpdv">ID PDV*</label>
-                                        <input type="number" name="idpdv" required placeholder="" value="557199" class="form-control" id="idpdv">
+                                        <input type="number" name="idpdv" required placeholder="" value="" class="form-control" id="idpdv">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -53,7 +53,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="numero_contacto">Celular de Contacto al Cliente*</label>
-                                        <input type="number" name="numero_contacto" class="form-control" value="3012998429" id="numero_contacto" required>
+                                        <input type="number" name="numero_contacto" class="form-control" id="numero_contacto" required>
                                     </div>
                                 </div>
                             </div>
