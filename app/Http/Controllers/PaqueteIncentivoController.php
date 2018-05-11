@@ -7,6 +7,7 @@ use App\Models\PaqueteIncentivo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PaqueteIncentivoController extends Controller
 {
@@ -17,7 +18,14 @@ class PaqueteIncentivoController extends Controller
      */
     public function index()
     {
-        $paquetes= PaqueteIncentivo::all();
+        $paquetes="";
+
+        if (auth()->user()->hasRole('Administrador')){
+            $paquetes= PaqueteIncentivo::all()->take(40);
+        }elseif(auth()->user()->hasRole('Asesor')){
+            $paquetes= PaqueteIncentivo::where('users_id','=',auth()->user()->id)->get();
+        }
+
         return view("asesores.paquete_incentivos.index",compact("paquetes"));
     }
 
@@ -39,7 +47,123 @@ class PaqueteIncentivoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (PaqueteIncentivo::where('movil','=',$request->numero)->exists()){
+            return response()->json(["mensaje"=>"Simcard anteriormente ingresada"],422);
+        }
+
+        try{
+            $pdv = Dms::select("idpdv","nombre_punto",'circuito')->findOrFail($request->idpdv);
+        }catch (\Exception $exception){
+            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],404);
+        }
+
+        $numero = preg_replace('/[^0-9]/', '', $request->numero);
+
+        $paquete = $this->validarPaquete($numero);
+
+//        dd($paquete->tipo_paquete=="");
+
+        $info="";
+
+        if($paquete->tipo_paquete==""){
+            $info = collect([
+                "pdv" => $pdv,
+                "simcard"=>[
+                    "estado" => $paquete->estado,
+                    "fecha_activacion" => ($paquete->date_last_update) ? $paquete->date_last_update->toDateTimeString():null,
+                    "paquete"=>[],
+                    "first_call"=>$paquete->first_call,
+                    "date_first_call"=>($paquete->date_first_call) ? $paquete->date_first_call->toDateTimeString():null
+                ],
+                "mensaje" => "Simcard no valida para Incentivo"
+            ]);
+
+            $info["mensaje"]="Simcard no valida para Incentivo";
+            return response()->json($info,404);
+        }else{
+            $info = collect([
+                "pdv" => $pdv,
+                "simcard"=>[
+                    "estado" => $paquete->estado,
+                    "fecha_activacion" => ($paquete->date_last_update) ? $paquete->date_last_update->toDateTimeString():null,
+                    "paquete"=>[
+                        "fecha"=>$paquete->tipo_paquete["fecha"]->toDateTimeString(),
+                        "paquete_id"=>$paquete->tipo_paquete["paquete_id"],
+                        "recurso"=>$paquete->tipo_paquete["recurso"],
+                        "tipo_recurso"=>$paquete->tipo_paquete["tipo_recurso"]
+                    ],
+                    "first_call"=>$paquete->first_call,
+                    "date_first_call"=>($paquete->date_first_call) ? $paquete->date_first_call->toDateTimeString():null
+                ],
+                "mensaje" => "Todo bien"
+            ]);
+        }
+
+        $mesActivacion=$paquete->date_last_update->month;
+        $mesPaquete=$paquete->tipo_paquete["fecha"]->month;
+
+        $mesActual=Carbon::now()->month;
+
+//        dd($info,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
+//        dd($request->idpdv);
+
+        if($info["simcard"]["first_call"]){
+
+            $paquete_incentivo = new PaqueteIncentivo();
+            $paquete_incentivo->movil = $numero;
+            $paquete_incentivo->paquete = $paquete->tipo_paquete["paquete_id"];
+            $paquete_incentivo->fecha_paquete = $paquete->tipo_paquete["fecha"]->toDateTimeString();
+            $paquete_incentivo->movil_contacto = $request->numero_contacto;
+            $paquete_incentivo->dms_idpdv = $pdv->idpdv;
+            $paquete_incentivo->validado_sistema = 0;
+            $paquete_incentivo->validado_callcenter = 0;
+            $paquete_incentivo->users_id = auth()->user()->id;
+
+            $paquete_incentivo->save();
+
+            return response()->json($info,200);
+        }else
+            if (($mesActivacion==$mesActual) && ($mesPaquete==$mesActual)){
+                $paquete_incentivo = new PaqueteIncentivo();
+                $paquete_incentivo->movil = $numero;
+                $paquete_incentivo->paquete = $paquete->tipo_paquete["paquete_id"];
+                $paquete_incentivo->fecha_paquete = $paquete->tipo_paquete["fecha"]->toDateTimeString();
+                $paquete_incentivo->movil_contacto = $request->numero_contacto;
+                $paquete_incentivo->dms_idpdv = $pdv->idpdv;
+                $paquete_incentivo->validado_sistema = 0;
+                $paquete_incentivo->validado_callcenter = 0;
+                $paquete_incentivo->users_id = auth()->user()->id;
+
+                switch ($paquete->tipo_paquete["paquete_id"]){
+                    case "4k":
+                        $paquete_incentivo->valor = 1000;
+                        break;
+                    case "6k":
+                        $paquete_incentivo->valor = 1500;
+                        break;
+                    case "10k":
+                        $paquete_incentivo->valor = 1500;
+                        break;
+                    case "20k":
+                        $paquete_incentivo->valor = 2000;
+                        break;
+                    case "bolsa":
+                        $paquete_incentivo->valor = 2000;
+                        break;
+                    case "datos":
+                        $paquete_incentivo->valor = 2000;
+                        break;
+                    case "minutera":
+                        $paquete_incentivo->valor = 2000;
+                        break;
+                }
+
+                $paquete_incentivo->save();
+
+                return response()->json($info,200);
+            }else{
+                return response()->json($info,404);
+            }
     }
 
     /**
@@ -89,11 +213,16 @@ class PaqueteIncentivoController extends Controller
 
     public function validar(Request $request)
     {
-//        try{
-//            $pdv = Dms::findOrFail($request->idpdv)->select("nombre_punto",'circuito')->first();
-//        }catch (\Exception $exception){
-//            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],404);
-//        }
+
+        if ((new \App\Models\PaqueteIncentivo)->where('movil','=',$request->numero)->exists()){
+            return response()->json(["mensaje"=>"Simcard anteriormente ingresada"],422);
+        }
+
+        try{
+            $pdv = Dms::findOrFail($request->idpdv)->select("nombre_punto",'circuito')->first();
+        }catch (\Exception $exception){
+            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],404);
+        }
 
         $numero = preg_replace('/[^0-9]/', '', $request->numero);
 
@@ -105,7 +234,7 @@ class PaqueteIncentivoController extends Controller
 
         if($paquete->tipo_paquete==""){
             $info = collect([
-//            "pdv" => $pdv,
+            "pdv" => $pdv,
                 "simcard"=>[
                     "estado" => $paquete->estado,
                     "fecha_activacion" => ($paquete->date_last_update) ? $paquete->date_last_update->toDateTimeString():null,
@@ -113,14 +242,14 @@ class PaqueteIncentivoController extends Controller
                     "first_call"=>$paquete->first_call,
                     "date_first_call"=>($paquete->date_first_call) ? $paquete->date_first_call->toDateTimeString():null
                 ],
-                "mensaje" => "Todo bien"
+                "mensaje" => "Simcard no valida para Incentivo"
             ]);
 
             $info["mensaje"]="Simcard no valida para Incentivo";
             return response()->json($info,404);
         }else{
             $info = collect([
-//            "pdv" => $pdv,
+            "pdv" => $pdv,
                 "simcard"=>[
                     "estado" => $paquete->estado,
                     "fecha_activacion" => ($paquete->date_last_update) ? $paquete->date_last_update->toDateTimeString():null,
@@ -409,6 +538,197 @@ class PaqueteIncentivoController extends Controller
                 break;
         }
         return $paquete;
+    }
+
+//generarPlanillaIndex
+//generarPlanillaExcel
+
+    public function generarPlanillaIndex(Request $request){
+        $asesores= ( new\App\Models\User)->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+            ->select('users.id','users.name')
+            ->where('paquetes_incentivos.validado_sistema','=',0)
+            ->groupBy('id','name')
+            ->get();
+
+        return view("asesores.generar_planilla_incentivo",compact("asesores"));
+
+    }
+
+    public function generarPlanillaExcel(Request $request){
+        $lineas = ( new\App\Models\PaqueteIncentivo)->where('validado_sistema',"=",0)->where('users_id',"=",$request->asesor)->get();
+
+//    dd($lineas->first()->dms->circuito);
+        $ids = array_pluck($lineas,'id');
+    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
+//    dd($lineas);
+
+        Excel::load(public_path('assets/Planilla.xlsx'), function($reader) use (&$lineas) {
+
+            $reader->sheet('Planilla', function($sheet) use (&$lineas) {
+                $lowValue=0;
+                $countLowValue=0;
+                $midValue=0;
+                $countMidValue=0;
+                $highValue=0;
+                $countHighValue=0;
+
+//            ENUM('4k', '6k', '10k', '20k', 'bolsa', 'datos', 'minutera') G10
+                $count=0;
+                foreach ($lineas as $linea) {
+
+//                echo($linea);
+
+                    switch ($linea->paquete){
+                        case "4k":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "X"
+                            ]);
+                            $lowValue+=$linea->valor;
+                            $countLowValue++;
+                            break;
+                        case "6k":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "",
+                                "X"
+                            ]);
+                            $midValue+=$linea->valor;
+                            $countMidValue++;
+                            break;
+                        case "10k":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "",
+                                "",
+                                "X"
+                            ]);
+                            $midValue+=$linea->valor;
+                            $countMidValue++;
+                            break;
+                        case "20k":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "",
+                                "",
+                                "",
+                                "X"
+                            ]);
+                            break;
+                        case "bolsa":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "X"
+                            ]);
+                            $highValue+=$linea->valor;
+                            $countHighValue++;
+                            break;
+                        case "datos":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "X"
+                            ]);
+                            $highValue+=$linea->valor;
+                            $countHighValue++;
+                            break;
+                        case "minutera":
+                            $sheet->prependRow(10,[
+                                $linea->dms_idpdv,
+                                $linea->dms->nombre_punto,
+                                $linea->dms->circuito,
+                                $linea->movil_contacto,
+                                $linea->movil,
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "X"
+                            ]);
+                            $highValue+=$linea->valor;
+                            $countHighValue++;
+                            break;
+                    }
+                    $count++;
+                }
+
+                $sheet->removeRow(9);
+
+                $sheet->setCellValue(
+                    'G'.(count($lineas)+11),
+                    $countLowValue.' x $1.000 = $'.$lowValue
+                );
+
+                $sheet->setCellValue(
+                    'G'.(count($lineas)+13),
+                    $countMidValue.' x $1.500 = $'.$midValue
+                );
+
+                $sheet->setCellValue(
+                    'G'.(count($lineas)+15),
+                    $countHighValue.' x $2.000 = $'.$highValue
+                );
+
+                $sheet->setCellValue(
+                    'M'.(count($lineas)+13),
+                    'TOTAL: $'.($lowValue+$midValue+$highValue)
+                );
+
+                $sheet->setCellValue(
+                    'E'.(count($lineas)+12),
+                    'Asesor: '.$lineas->first()->user->name
+                );
+
+//                $sheet->setCellValue(
+//                    'B'.(count($lineas)+12),
+//                    'Sistemas: '.auth()->user()->name
+//                );
+
+            });
+        })->export('xlsx');
+
+        return redirect()->back();
     }
 
 }

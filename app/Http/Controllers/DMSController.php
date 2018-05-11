@@ -61,7 +61,7 @@ class DMSController extends Controller
                         'fecha_creacion_dms' => Carbon::createFromFormat('d/m/Y',$row['fecha_creacion']),
                         'fecha_modificacion_dms' => Carbon::createFromFormat('d/m/Y',$row['fecha_ultima_modificacion']),
                         'distribuidor' => $row['distribuidor'],
-                        'moviles_epin' => substr($row['moviles_epin'],'0','44+'),
+                        'moviles_epin' => substr($row['moviles_epin'],'0','44'),
                         'cod_sub' => $row['cod.sub'],
                         'epin' => $row['serve_pin_tigo'],
                         'simcard' => $row['servsimcard_tigo'],

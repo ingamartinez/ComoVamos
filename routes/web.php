@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
         'delete' => 'dms.delete'
     ]]);
 
+    Route::get('generar-planilla-paquete-incentivo','PaqueteIncentivoController@generarPlanillaIndex')->name('paq.generarPlanilla');
+    Route::post('generar-planilla-paquete-incentivo','PaqueteIncentivoController@generarPlanillaExcel')->name('paq.generarExcel');
     Route::get('validar-paquete','PaqueteIncentivoController@validar')->name('paq.validar');
     Route::resource('paquete-incentivo','PaqueteIncentivoController',['names'=>[
         'store' => 'paq.store',
@@ -227,9 +229,6 @@ Route::get('prueba4', function (\Illuminate\Http\Request $request) {
             });
         });
 
-//        dd($megas);
-
-
         try{
             $fecha_paquete = array_last(array_filter(array_map("convert",$megas,$fechas)))["fecha_paquete"];
             $paquete = array_last(array_filter(array_map("convert",$megas,$fechas)))["paquete"];
@@ -252,5 +251,178 @@ Route::get('prueba4', function (\Illuminate\Http\Request $request) {
 });
 
 Route::get('prueba5', function () {
-    dd(\Carbon\Carbon::createFromFormat('d/m/Y',"27/09/2017"));
+    $lineas = ( new\App\Models\PaqueteIncentivo)->where('validado_sistema',"=",0)->where('users_id',"=",12)->get();
+
+//    dd($lineas->first()->dms->circuito);
+    $ids = array_pluck($lineas,'id');
+//    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
+//    dd($lineas);
+
+    Excel::load(public_path('assets/Planilla.xlsx'), function($reader) use (&$lineas) {
+
+        $reader->sheet('Planilla', function($sheet) use (&$lineas) {
+            $lowValue=0;
+            $countLowValue=0;
+            $midValue=0;
+            $countMidValue=0;
+            $highValue=0;
+            $countHighValue=0;
+
+//            ENUM('4k', '6k', '10k', '20k', 'bolsa', 'datos', 'minutera') G10
+            $count=0;
+            foreach ($lineas as $linea) {
+
+//                echo($linea);
+
+                switch ($linea->paquete){
+                    case "4k":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "X"
+                        ]);
+                        $lowValue+=$linea->valor;
+                        $countLowValue++;
+                        break;
+                    case "6k":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "",
+                            "X"
+                        ]);
+                        $midValue+=$linea->valor;
+                        $countMidValue++;
+                        break;
+                    case "10k":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "",
+                            "",
+                            "X"
+                        ]);
+                        $midValue+=$linea->valor;
+                        $countMidValue++;
+                        break;
+                    case "20k":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "X"
+                        ]);
+                        break;
+                    case "bolsa":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "X"
+                        ]);
+                        $highValue+=$linea->valor;
+                        $countHighValue++;
+                        break;
+                    case "datos":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "X"
+                        ]);
+                        $highValue+=$linea->valor;
+                        $countHighValue++;
+                        break;
+                    case "minutera":
+                        $sheet->prependRow(10,[
+                            $linea->dms_idpdv,
+                            $linea->dms->nombre_punto,
+                            $linea->dms->circuito,
+                            $linea->movil_contacto,
+                            $linea->movil,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "X"
+                        ]);
+                        $highValue+=$linea->valor;
+                        $countHighValue++;
+                        break;
+                }
+                $count++;
+            }
+
+            $sheet->removeRow(9);
+
+            $sheet->setCellValue(
+                'G'.(count($lineas)+11),
+                $countLowValue.' x $1.000 = $'.$lowValue
+            );
+
+            $sheet->setCellValue(
+                'G'.(count($lineas)+13),
+                $countMidValue.' x $1.500 = $'.$midValue
+            );
+
+            $sheet->setCellValue(
+                'G'.(count($lineas)+15),
+                $countHighValue.' x $2.000 = $'.$highValue
+            );
+
+            $sheet->setCellValue(
+                'M'.(count($lineas)+13),
+                'TOTAL: $'.($lowValue+$midValue+$highValue)
+            );
+
+            $sheet->setCellValue(
+                'E'.(count($lineas)+12),
+                'Asesor: '.$lineas->first()->user->name
+            );
+
+            $sheet->setCellValue(
+                'B'.(count($lineas)+12),
+                'Sistemas: '.auth()->user()->name
+            );
+
+        });
+    })->export('xlsx');
+
+
 });
