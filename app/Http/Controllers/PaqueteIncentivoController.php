@@ -54,7 +54,7 @@ class PaqueteIncentivoController extends Controller
         try{
             $pdv = Dms::select("idpdv","nombre_punto",'circuito')->findOrFail($request->idpdv);
         }catch (\Exception $exception){
-            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],404);
+            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],422);
         }
 
         $numero = preg_replace('/[^0-9]/', '', $request->numero);
@@ -245,7 +245,7 @@ class PaqueteIncentivoController extends Controller
         try{
             $pdv = Dms::findOrFail($request->idpdv)->select("nombre_punto",'circuito')->first();
         }catch (\Exception $exception){
-            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],404);
+            return response()->json(["mensaje"=>"No se encontró el punto de Venta"],422);
         }
 
         $numero = preg_replace('/[^0-9]/', '', $request->numero);
