@@ -63,35 +63,35 @@
                             <h4 class="header-title m-t-0 m-b-10">Validar Línea</h4>
 
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="linea">Linea de Incentivo*</label>
                                         <input id="linea" type="number" class="form-control" required>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="tipo_paquete">Tipo de Paquete</label>
                                         <input type="text" name="tipo_paquete" class="form-control" id="tipo_paquete" disabled>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="fecha_paquete">Fecha de Paquete</label>
                                         <input type="text" name="fecha_paquete" class="form-control" id="fecha_paquete" disabled>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="estado">Estado</label>
                                         <input type="text" name="estado" class="form-control" id="estado" disabled>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="fecha_activación">Fecha de Activación</label>
                                         <input type="text" name="fecha_activación" class="form-control" id="fecha_activación" disabled>
