@@ -119,6 +119,30 @@ class PaqueteIncentivoController extends Controller
             $paquete_incentivo->validado_callcenter = 0;
             $paquete_incentivo->users_id = auth()->user()->id;
 
+            switch ($paquete->tipo_paquete["paquete_id"]){
+                case "4k":
+                    $paquete_incentivo->valor = 1000;
+                    break;
+                case "6k":
+                    $paquete_incentivo->valor = 1500;
+                    break;
+                case "10k":
+                    $paquete_incentivo->valor = 1500;
+                    break;
+                case "20k":
+                    $paquete_incentivo->valor = 2000;
+                    break;
+                case "bolsa":
+                    $paquete_incentivo->valor = 2000;
+                    break;
+                case "datos":
+                    $paquete_incentivo->valor = 2000;
+                    break;
+                case "minutera":
+                    $paquete_incentivo->valor = 2000;
+                    break;
+            }
+
             $paquete_incentivo->save();
 
             return response()->json($info,200);
