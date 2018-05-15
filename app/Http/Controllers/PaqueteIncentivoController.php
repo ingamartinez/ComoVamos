@@ -243,7 +243,7 @@ class PaqueteIncentivoController extends Controller
         }
 
         try{
-            $pdv = Dms::findOrFail($request->idpdv)->select("nombre_punto",'circuito')->first();
+            $pdv = Dms::select("nombre_punto",'circuito')->findOrFail($request->idpdv);
         }catch (\Exception $exception){
             return response()->json(["mensaje"=>"No se encontró el punto de Venta"],422);
         }
