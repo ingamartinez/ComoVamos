@@ -658,6 +658,8 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
+                            $highValue+=$linea->valor;
+                            $countHighValue++;
                             break;
                         case "bolsa":
                             $sheet->prependRow(10,[
