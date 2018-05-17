@@ -290,7 +290,6 @@ class PaqueteIncentivoController extends Controller
             ]);
         }
 
-        $mesActivacion=$paquete->date_last_update->month;
         $mesPaquete=$paquete->tipo_paquete["fecha"]->month;
 
         $mesActual=Carbon::now()->month;
@@ -300,7 +299,7 @@ class PaqueteIncentivoController extends Controller
         if($info["simcard"]["first_call"]){
             return response()->json($info,200);
         }else
-            if (($mesActivacion==$mesActual) && ($mesPaquete==$mesActual)){
+            if ($mesPaquete==$mesActual){
             return response()->json($info,200);
         }else{
             $info["mensaje"]="Simcard no valida para Incentivo";
