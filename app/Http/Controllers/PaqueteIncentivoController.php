@@ -545,6 +545,10 @@ class PaqueteIncentivoController extends Controller
                         $paquete["paquete_id"]="datos";
                         break;
 
+                    case "3122":
+                        $paquete["paquete_id"]="datos";
+                        break;
+
                     default:
                         $paquete["paquete_id"]=null;
                         break;
