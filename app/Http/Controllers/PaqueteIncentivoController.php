@@ -147,7 +147,8 @@ class PaqueteIncentivoController extends Controller
 
             return response()->json($info,200);
         }else
-            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
+//            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
+            if ($mesPaquete==$mesActual){
                 $paquete_incentivo = new PaqueteIncentivo();
                 $paquete_incentivo->movil = $numero;
                 $paquete_incentivo->paquete = $paquete->tipo_paquete["paquete_id"];
