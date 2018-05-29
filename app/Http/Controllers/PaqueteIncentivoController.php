@@ -127,10 +127,10 @@ class PaqueteIncentivoController extends Controller
                     $paquete_incentivo->valor = 1500;
                     break;
                 case "10k":
-                    $paquete_incentivo->valor = 1500;
+                    $paquete_incentivo->valor = 3000;
                     break;
                 case "20k":
-                    $paquete_incentivo->valor = 2000;
+                    $paquete_incentivo->valor = 4000;
                     break;
                 case "bolsa":
                     $paquete_incentivo->valor = 2000;
@@ -147,7 +147,7 @@ class PaqueteIncentivoController extends Controller
 
             return response()->json($info,200);
         }else
-            if ($mesPaquete==$mesActual){
+            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
                 $paquete_incentivo = new PaqueteIncentivo();
                 $paquete_incentivo->movil = $numero;
                 $paquete_incentivo->paquete = $paquete->tipo_paquete["paquete_id"];
@@ -166,10 +166,10 @@ class PaqueteIncentivoController extends Controller
                         $paquete_incentivo->valor = 1500;
                         break;
                     case "10k":
-                        $paquete_incentivo->valor = 1500;
+                        $paquete_incentivo->valor = 3000;
                         break;
                     case "20k":
-                        $paquete_incentivo->valor = 2000;
+                        $paquete_incentivo->valor = 4000;
                         break;
                     case "bolsa":
                         $paquete_incentivo->valor = 2000;
