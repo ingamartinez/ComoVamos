@@ -572,13 +572,27 @@ class PaqueteIncentivoController extends Controller
 //generarPlanillaExcel
 
     public function generarPlanillaIndex(Request $request){
-        $asesores= ( new\App\Models\User)->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
-            ->select('users.id','users.name')
-            ->where('paquetes_incentivos.validado_sistema','=',0)
-            ->groupBy('id','name')
-            ->get();
 
-        return view("asesores.generar_planilla_incentivo",compact("asesores"));
+
+        if(auth()->user()->hasRole('Administrador')){
+            $asesores= ( new\App\Models\User)->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->select('users.id','users.name')
+                ->where('paquetes_incentivos.validado_sistema','=',0)
+                ->groupBy('id','name')
+                ->get();
+
+            return view("asesores.generar_planilla_incentivo",compact("asesores"));
+        }else if(auth()->user()->hasRole('Caja')){
+            $asesores= ( new\App\Models\User)->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->select('users.id','users.name')
+                ->where('paquetes_incentivos.validado_sistema','=',0)
+                ->where('users.users_id','=',10)
+                ->groupBy('id','name')
+                ->get();
+            return view("asesores.generar_planilla_incentivo",compact("asesores"));
+        }
+
+
 
     }
 
