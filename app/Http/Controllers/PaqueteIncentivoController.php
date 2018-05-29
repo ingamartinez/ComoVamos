@@ -598,6 +598,10 @@ class PaqueteIncentivoController extends Controller
                 $countMidValue=0;
                 $highValue=0;
                 $countHighValue=0;
+                $incentivo3kValue=0;
+                $countincentivo3kValue=0;
+                $incentivo4kValue=0;
+                $countincentivo4kValue=0;
 
 //            ENUM('4k', '6k', '10k', '20k', 'bolsa', 'datos', 'minutera') G10
                 $count=0;
@@ -645,8 +649,8 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $midValue+=$linea->valor;
-                            $countMidValue++;
+                            $incentivo3kValue+=$linea->valor;
+                            $countincentivo3kValue++;
                             break;
                         case "20k":
                             $sheet->prependRow(10,[
@@ -661,8 +665,8 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $highValue+=$linea->valor;
-                            $countHighValue++;
+                            $incentivo4kValue+=$linea->valor;
+                            $countincentivo4kValue++;
                             break;
                         case "bolsa":
                             $sheet->prependRow(10,[
@@ -725,27 +729,37 @@ class PaqueteIncentivoController extends Controller
                 $sheet->removeRow(9);
 
                 $sheet->setCellValue(
-                    'G'.(count($lineas)+11),
+                    'G'.(count($lineas)+10),
                     $countLowValue.' x $1.000 = $'.$lowValue
                 );
 
                 $sheet->setCellValue(
-                    'G'.(count($lineas)+13),
+                    'G'.(count($lineas)+12),
                     $countMidValue.' x $1.500 = $'.$midValue
                 );
 
                 $sheet->setCellValue(
-                    'G'.(count($lineas)+15),
+                    'G'.(count($lineas)+14),
                     $countHighValue.' x $2.000 = $'.$highValue
                 );
 
                 $sheet->setCellValue(
-                    'M'.(count($lineas)+13),
-                    'TOTAL: $'.($lowValue+$midValue+$highValue)
+                    'G'.(count($lineas)+16),
+                    $countincentivo3kValue.' x $3.000 = $'.$incentivo3kValue
                 );
 
                 $sheet->setCellValue(
-                    'E'.(count($lineas)+12),
+                    'G'.(count($lineas)+18),
+                    $countincentivo4kValue.' x $4.000 = $'.$incentivo4kValue
+                );
+
+                $sheet->setCellValue(
+                    'M'.(count($lineas)+14),
+                    'TOTAL: $'.($lowValue+$midValue+$highValue+$incentivo3kValue+$incentivo4kValue)
+                );
+
+                $sheet->setCellValue(
+                    'E'.(count($lineas)+14),
                     'Asesor: '.$lineas->first()->user->name
                 );
 
