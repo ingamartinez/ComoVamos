@@ -117,6 +117,10 @@
                     @include('menu.asesor')
                 @endrole
 
+                @role('Caja')
+                    @include('menu.caja')
+                @endrole
+
 
                 <div class="clearfix"></div>
             </div>
