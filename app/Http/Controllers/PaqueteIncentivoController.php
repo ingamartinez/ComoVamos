@@ -478,7 +478,7 @@ class PaqueteIncentivoController extends Controller
                 }
             });
 
-//            dd($paquete_mes_anterior);
+//            dd($sorted);
 
             if (!$paquete_mes_anterior){
                 $sorted->each(function ($item, $key) use (&$tipo_paquete){
@@ -520,7 +520,7 @@ class PaqueteIncentivoController extends Controller
                         break;
 
                     case "500":
-                        if($paquete["dias_recurso"]==7){
+                        if($paquete["dias_recurso"]==7||$paquete["dias_recurso"]==10){
                             $paquete["paquete_id"]="datos";
                         }elseif($paquete["dias_recurso"]==3){
                             $paquete["paquete_id"]="4k";
