@@ -130,7 +130,7 @@ class PaqueteIncentivoController extends Controller
                     $paquete_incentivo->valor = 3000;
                     break;
                 case "20k":
-                    $paquete_incentivo->valor = 4000;
+                    $paquete_incentivo->valor = 5000;
                     break;
                 case "bolsa":
                     $paquete_incentivo->valor = 2000;
@@ -170,7 +170,7 @@ class PaqueteIncentivoController extends Controller
                         $paquete_incentivo->valor = 3000;
                         break;
                     case "20k":
-                        $paquete_incentivo->valor = 4000;
+                        $paquete_incentivo->valor = 5000;
                         break;
                     case "bolsa":
                         $paquete_incentivo->valor = 2000;
@@ -751,7 +751,7 @@ class PaqueteIncentivoController extends Controller
 
                 $sheet->setCellValue(
                     'G'.(count($lineas)+18),
-                    $countincentivo4kValue.' x $4.000 = $'.$incentivo4kValue
+                    $countincentivo4kValue.' x $5.000 = $'.$incentivo4kValue
                 );
 
                 $sheet->setCellValue(
