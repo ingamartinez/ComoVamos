@@ -174,7 +174,8 @@
                 time: false,
                 weekStart : 0,
                 format: 'YYYY-MM-DD',
-                setDate: moment()
+                setDate: moment(),
+                minDate: moment("05-12-2018", "MM-DD-YYYY")
             }).on('change', function(e, date) {
                 $('#fechaFinal').bootstrapMaterialDatePicker('setMinDate', date);
             });
