@@ -66,6 +66,13 @@ Route::middleware(['auth'])->group(function () {
         'delete' => 'paq.delete'
     ]]);
 
+    Route::resource('resumen-incentivos','ResumenController',['names'=>[
+        'store' => 'resumen-incentivo.store',
+        'show' => 'resumen-incentivo.show',
+        'update' => 'resumen-incentivo.update',
+        'delete' => 'resumen-incentivo.delete'
+    ]]);
+
 });
 
 
@@ -83,6 +90,10 @@ Route::get('prueba', function () {
 //
 //    dd($user->roles()->get());
 //    dd(hash('sha256','123'));
+});
+
+Route::get('prueba2', function () {
+
 });
 
 Route::get('prueba3', function () {

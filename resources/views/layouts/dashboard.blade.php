@@ -40,6 +40,7 @@
     {{--<![endif]-->--}}
 
     {{--<script src="{{asset('assets/js/modernizr.min.js')}}"></script>--}}
+    @yield('styles')
 
 </head>
 
@@ -121,6 +122,10 @@
                     @include('menu.caja')
                 @endrole
 
+                @role('Gerente')
+                @include('menu.administrativo')
+                @endrole
+
 
                 <div class="clearfix"></div>
             </div>
@@ -180,7 +185,7 @@
 {{--<!--[if IE]>--}}
 {{--<script type="text/javascript" src="{{asset('assets/plugins/jquery-knob/excanvas.js')}}"></script>--}}
 {{--<![endif]-->--}}
-{{--<script src="{{asset('assets/plugins/jquery-knob/jquery.knob.js')}}"></script>--}}
+<script src="{{asset('assets/plugins/jquery-knob/jquery.knob.js')}}"></script>
 
 <!--Chart.js-->
 {{--<script src="{{asset('assets/plugins/chart.js/dist/Chart.js')}}"></script>--}}
@@ -188,6 +193,9 @@
 <!-- Datatable -->
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap.js')}}"></script>
+
+{{--Circlifull--}}
+<script src="{{asset('assets/plugins/jquery-circliful/js/jquery.circliful.min.js')}}"></script>
 
 <!-- App js -->
 <script src="{{asset('assets/js/jquery.core.js')}}"></script>
