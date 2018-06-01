@@ -677,7 +677,7 @@ class PaqueteIncentivoController extends Controller
 
 //    dd($lineas->first()->dms->circuito);
         $ids = array_pluck($lineas,'id');
-//    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
+    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
 
         Excel::load(public_path('assets/Planilla.xlsx'), function($reader) use (&$lineas) {
 
