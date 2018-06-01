@@ -101,6 +101,7 @@ class PaqueteIncentivoController extends Controller
 
         $mesActivacion=$paquete->date_last_update->month;
         $mesPaquete=$paquete->tipo_paquete["fecha"]->month;
+        $diaPaquete=$paquete->tipo_paquete["fecha"]->day;
 
         $mesActual=Carbon::now()->month;
 
@@ -124,22 +125,42 @@ class PaqueteIncentivoController extends Controller
                     $paquete_incentivo->valor = 1000;
                     break;
                 case "6k":
-                    $paquete_incentivo->valor = 1500;
+                    if ($mesPaquete==$mesActual-1){
+                        $paquete_incentivo->valor = 1500;
+                    }else{
+                        $paquete_incentivo->valor = 2000;
+                    }
                     break;
                 case "10k":
                     $paquete_incentivo->valor = 3000;
                     break;
                 case "20k":
-                    $paquete_incentivo->valor = 5000;
+                    if ($mesPaquete==$mesActual-1){
+                        $paquete_incentivo->valor = 5000;
+                    }else{
+                        $paquete_incentivo->valor = 3000;
+                    }
                     break;
                 case "bolsa":
-                    $paquete_incentivo->valor = 2000;
+                    if ($mesPaquete==$mesActual-1){
+                        $paquete_incentivo->valor = 2000;
+                    }else{
+                        $paquete_incentivo->valor = 3000;
+                    }
                     break;
                 case "datos":
-                    $paquete_incentivo->valor = 2000;
+                    if ($mesPaquete==$mesActual-1){
+                        $paquete_incentivo->valor = 2000;
+                    }else{
+                        $paquete_incentivo->valor = 3000;
+                    }
                     break;
                 case "minutera":
-                    $paquete_incentivo->valor = 2000;
+                    if ($mesPaquete==$mesActual-1){
+                        $paquete_incentivo->valor = 2000;
+                    }else{
+                        $paquete_incentivo->valor = 3000;
+                    }
                     break;
             }
 
