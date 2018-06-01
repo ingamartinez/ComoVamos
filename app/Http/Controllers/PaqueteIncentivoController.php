@@ -473,10 +473,14 @@ class PaqueteIncentivoController extends Controller
             $paquete_mes_anterior=false;
 
             $sorted->each(function ($item, $key) use (&$paquete_mes_anterior){
-                if($item["fecha"]->month!=Carbon::now()->month){
+                if($item["fecha"]->month==Carbon::now()->month-1){
+                    $paquete_mes_anterior = false;
+                    return false;
+                }else if($item["fecha"]->month!=Carbon::now()->month){
                     $paquete_mes_anterior = true;
                     return false;
                 }
+
             });
 
 //            dd($sorted);
