@@ -677,29 +677,14 @@ class PaqueteIncentivoController extends Controller
 
 //    dd($lineas->first()->dms->circuito);
         $ids = array_pluck($lineas,'id');
-    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
-//    dd($lineas);
+//    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
 
         Excel::load(public_path('assets/Planilla.xlsx'), function($reader) use (&$lineas) {
 
             $reader->sheet('Planilla', function($sheet) use (&$lineas) {
-                $lowValue=0;
-                $countLowValue=0;
-                $midValue=0;
-                $countMidValue=0;
-                $highValue=0;
-                $countHighValue=0;
-                $incentivo3kValue=0;
-                $countincentivo3kValue=0;
-                $incentivo4kValue=0;
-                $countincentivo4kValue=0;
 
-//            ENUM('4k', '6k', '10k', '20k', 'bolsa', 'datos', 'minutera') G10
                 $count=0;
                 foreach ($lineas as $linea) {
-
-//                echo($linea);
-
                     switch ($linea->paquete){
                         case "4k":
                             $sheet->prependRow(10,[
@@ -711,8 +696,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $lowValue+=$linea->valor;
-                            $countLowValue++;
                             break;
                         case "6k":
                             $sheet->prependRow(10,[
@@ -725,8 +708,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $midValue+=$linea->valor;
-                            $countMidValue++;
                             break;
                         case "10k":
                             $sheet->prependRow(10,[
@@ -740,8 +721,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $incentivo3kValue+=$linea->valor;
-                            $countincentivo3kValue++;
                             break;
                         case "20k":
                             $sheet->prependRow(10,[
@@ -756,8 +735,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $incentivo4kValue+=$linea->valor;
-                            $countincentivo4kValue++;
                             break;
                         case "bolsa":
                             $sheet->prependRow(10,[
@@ -773,8 +750,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $highValue+=$linea->valor;
-                            $countHighValue++;
                             break;
                         case "datos":
                             $sheet->prependRow(10,[
@@ -791,8 +766,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $highValue+=$linea->valor;
-                            $countHighValue++;
                             break;
                         case "minutera":
                             $sheet->prependRow(10,[
@@ -810,8 +783,6 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "X"
                             ]);
-                            $highValue+=$linea->valor;
-                            $countHighValue++;
                             break;
                     }
                     $count++;
@@ -820,39 +791,25 @@ class PaqueteIncentivoController extends Controller
                 $sheet->removeRow(9);
 
                 $sheet->setCellValue(
-                    'G'.(count($lineas)+10),
-                    $countLowValue.' x $1.000 = $'.$lowValue
+                    'L'.(count($lineas)+10),
+                    'TOTAL: $'.($lineas->sum('valor'))
                 );
 
                 $sheet->setCellValue(
-                    'G'.(count($lineas)+12),
-                    $countMidValue.' x $1.500 = $'.$midValue
-                );
-
-                $sheet->setCellValue(
-                    'G'.(count($lineas)+14),
-                    $countHighValue.' x $2.000 = $'.$highValue
-                );
-
-                $sheet->setCellValue(
-                    'G'.(count($lineas)+16),
-                    $countincentivo3kValue.' x $3.000 = $'.$incentivo3kValue
-                );
-
-                $sheet->setCellValue(
-                    'G'.(count($lineas)+18),
-                    $countincentivo4kValue.' x $5.000 = $'.$incentivo4kValue
-                );
-
-                $sheet->setCellValue(
-                    'M'.(count($lineas)+14),
-                    'TOTAL: $'.($lowValue+$midValue+$highValue+$incentivo3kValue+$incentivo4kValue)
-                );
-
-                $sheet->setCellValue(
-                    'E'.(count($lineas)+14),
+                    'E'.(count($lineas)+12),
                     'Asesor: '.$lineas->first()->user->name
                 );
+
+                $grouped = $lineas->groupBy('paquete');
+                $count=0;
+                $grouped->each(function ($item, $key) use ($sheet,&$count,$lineas){
+                    $sheet->setCellValue(
+                        'G'.(count($lineas)+10+$count),
+                        $item->count('id').' x '.$key.' = $'.$item->sum('valor')
+                    );
+                    $count++;
+//                    echo $key.$item->sum('valor');
+                });
 
 //                $sheet->setCellValue(
 //                    'B'.(count($lineas)+12),
