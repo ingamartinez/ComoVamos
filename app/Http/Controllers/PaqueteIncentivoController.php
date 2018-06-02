@@ -677,7 +677,7 @@ class PaqueteIncentivoController extends Controller
 
 //    dd($lineas->first()->dms->circuito);
         $ids = array_pluck($lineas,'id');
-    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
+//    \App\Models\PaqueteIncentivo::whereIn('id',$ids)->update(["validado_sistema"=>1]);
 
         Excel::load(public_path('assets/Planilla.xlsx'), function($reader) use (&$lineas) {
 
@@ -692,8 +692,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->nombre_punto,
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
-                                $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "X"
                             ]);
                             break;
@@ -704,7 +703,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
                                 $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "X"
                             ]);
@@ -716,7 +715,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
                                 $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "",
                                 "X"
@@ -729,7 +728,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
                                 $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "",
                                 "",
@@ -743,7 +742,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
                                 $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "",
                                 "",
@@ -758,7 +757,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
                                 $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "",
                                 "",
@@ -774,7 +773,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
                                 $linea->movil,
-                                "",
+                                $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "",
                                 "",
