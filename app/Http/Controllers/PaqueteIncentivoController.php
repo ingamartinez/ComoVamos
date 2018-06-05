@@ -692,6 +692,7 @@ class PaqueteIncentivoController extends Controller
                                 $linea->dms->nombre_punto,
                                 $linea->dms->circuito,
                                 $linea->movil_contacto,
+                                $linea->movil,
                                 $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "X"
                             ]);
