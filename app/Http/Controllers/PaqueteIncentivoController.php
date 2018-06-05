@@ -655,6 +655,7 @@ class PaqueteIncentivoController extends Controller
                 ->select('users.id','users.name')
                 ->where('paquetes_incentivos.validado_sistema','=',0)
                 ->groupBy('id','name')
+                ->orderBy('name', 'asc')
                 ->get();
 
             return view("asesores.generar_planilla_incentivo",compact("asesores"));
@@ -664,6 +665,7 @@ class PaqueteIncentivoController extends Controller
                 ->where('paquetes_incentivos.validado_sistema','=',0)
                 ->where('users.users_id','=',10)
                 ->groupBy('id','name')
+                ->orderBy('name', 'asc')
                 ->get();
             return view("asesores.generar_planilla_incentivo",compact("asesores"));
         }
