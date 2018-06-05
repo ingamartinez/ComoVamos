@@ -69,6 +69,7 @@ class ResumenController extends Controller
                 ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
                 ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
                 ->where('supervisores.id','=',auth()->user()->id)
+                ->orderBy('cantidad', 'desc')
                 ->groupBy('users.name')
             ->get();
         }else{
@@ -105,6 +106,7 @@ class ResumenController extends Controller
                 )
                 ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
                 ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->orderBy('cantidad', 'desc')
                 ->groupBy('users.name')
                 ->get();
         }

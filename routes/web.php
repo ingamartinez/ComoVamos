@@ -93,20 +93,7 @@ Route::get('prueba', function () {
 });
 
 Route::get('prueba2', function () {
-    $resumenPorPaquete= \DB::table('paquetes_incentivos')
-        ->select(
-            'paquetes_incentivos.paquete',
-            \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
-            \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
-        )
-        ->join('users as supervisores',"users.users_id",'supervisores.id')
-//        ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
-//        ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
-        ->where('supervisores.created_at','<=',$fechaFinal)
-        ->groupBy('paquetes_incentivos.paquete')
-        ->get();
 
-    dd($resumenPorPaquete);
 });
 
 Route::get('prueba3', function () {

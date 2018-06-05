@@ -132,7 +132,7 @@
                     <thead>
                     <tr>
                         <th>Cant.</th>
-                        <th>Paquete</th>
+                        <th>Asesor</th>
                         <th>Valor</th>
                     </tr>
                     </thead>
