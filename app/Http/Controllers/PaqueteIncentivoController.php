@@ -790,31 +790,51 @@ class PaqueteIncentivoController extends Controller
 
                 $sheet->removeRow(9);
 
-                $sheet->setCellValue(
-                    'L'.(count($lineas)+10),
-                    'TOTAL: $'.($lineas->sum('valor'))
-                );
+
 
                 $sheet->setCellValue(
                     'E'.(count($lineas)+12),
                     'Asesor: '.$lineas->first()->user->name
                 );
 
-                $grouped = $lineas->groupBy('paquete');
+                $groupedString = $lineas->map(function ($item, $key) {
+                    $item->valor = (string) $item->valor;
+                    return $item;
+                });
+
+                $grouped = $groupedString->groupBy('valor');
                 $count=0;
+
                 $grouped->each(function ($item, $key) use ($sheet,&$count,$lineas){
                     $sheet->setCellValue(
                         'G'.(count($lineas)+10+$count),
                         $item->count('id').' x '.$key.' = $'.$item->sum('valor')
                     );
                     $count++;
-//                    echo $key.$item->sum('valor');
                 });
 
-//                $sheet->setCellValue(
-//                    'B'.(count($lineas)+12),
-//                    'Sistemas: '.auth()->user()->name
-//                );
+                $sheet->setCellValue(
+                    'G'.(count($lineas)+10+$count),
+                    'TOTAL: $'.($lineas->sum('valor'))
+                );
+
+                //otro lado
+
+                $grouped = $groupedString->groupBy('paquete');
+                $count=0;
+
+                $grouped->each(function ($item, $key) use ($sheet,&$count,$lineas){
+                    $sheet->setCellValue(
+                        'L'.(count($lineas)+10+$count),
+                        $item->count('id').' x '.$key.' = $'.$item->sum('valor')
+                    );
+                    $count++;
+                });
+
+                $sheet->setCellValue(
+                    'L'.(count($lineas)+10+$count),
+                    'TOTAL: $'.($lineas->sum('valor'))
+                );
 
             });
         })->export('xlsx');
