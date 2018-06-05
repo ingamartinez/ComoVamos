@@ -29,43 +29,87 @@ class ResumenController extends Controller
             $fechaFinal=Carbon::parse($fechaFinal)->endOfDay()->toDateTimeString();
         }
 
-//        dd($fechaInicial,$fechaFinal);
+        if (auth()->user()->hasRole('Supervisor')){
+            $resumenPorPaquete= \DB::table('users')
+                ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->join('users as supervisores',"users.users_id",'supervisores.id')
+                ->select(
+                    'paquetes_incentivos.paquete',
+                    \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                    \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+                )
+                ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+                ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->where('supervisores.id','=',auth()->user()->id)
+                ->groupBy('paquetes_incentivos.paquete')
+                ->get();
 
-        $resumenPorPaquete= \DB::table('paquetes_incentivos')
-            ->select(
-                'paquetes_incentivos.paquete',
-                \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
-                \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
-            )
-            ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
-            ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
-            ->groupBy('paquetes_incentivos.paquete')
-        ->get();
-
-        $resumenPorSupervisor= \DB::table('users')
-            ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
-            ->join('users as supervisores',"users.users_id",'supervisores.id')
-            ->select(
-                'supervisores.name',
-                \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
-                \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
-            )
-            ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
-            ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
-            ->groupBy('supervisores.name')
-        ->get();
-
-        $resumenPorAsesor= \DB::table('users')
-            ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
-            ->select(
-                'users.name',
-                \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
-                \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
-            )
-            ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
-            ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
-            ->groupBy('users.name')
+            $resumenPorSupervisor= \DB::table('users')
+                ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->join('users as supervisores',"users.users_id",'supervisores.id')
+                ->select(
+                    'supervisores.name',
+                    \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                    \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+                )
+                ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+                ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->where('supervisores.id','=',auth()->user()->id)
+                ->groupBy('supervisores.name')
             ->get();
+
+            $resumenPorAsesor= \DB::table('users')
+                ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->join('users as supervisores',"users.users_id",'supervisores.id')
+                ->select(
+                    'users.name',
+                    \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                    \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+                )
+                ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+                ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->where('supervisores.id','=',auth()->user()->id)
+                ->groupBy('users.name')
+            ->get();
+        }else{
+            $resumenPorPaquete= \DB::table('paquetes_incentivos')
+                ->select(
+                    'paquetes_incentivos.paquete',
+                    \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                    \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+                )
+                ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+                ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->groupBy('paquetes_incentivos.paquete')
+                ->get();
+
+            $resumenPorSupervisor= \DB::table('users')
+                ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->join('users as supervisores',"users.users_id",'supervisores.id')
+                ->select(
+                    'supervisores.name',
+                    \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                    \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+                )
+                ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+                ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->groupBy('supervisores.name')
+                ->get();
+
+            $resumenPorAsesor= \DB::table('users')
+                ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+                ->select(
+                    'users.name',
+                    \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                    \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+                )
+                ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+                ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+                ->groupBy('users.name')
+                ->get();
+        }
+
+
         $fechaInicial=Carbon::parse($fechaInicial);
         $fechaFinal=Carbon::parse($fechaFinal);
 

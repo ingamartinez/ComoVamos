@@ -122,7 +122,7 @@
                     @include('menu.caja')
                 @endrole
 
-                @hasanyrole('Gerente|Administrativo')
+                @hasanyrole('Gerente|Administrativo|Supervisor')
                 @include('menu.administrativo')
                 @endrole
 
