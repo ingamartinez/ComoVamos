@@ -542,7 +542,7 @@ class PaqueteIncentivoController extends Controller
             $sorted->each(function ($item, $key) use (&$paquete_mes_anterior){
                 if($item["fecha"]->month==Carbon::now()->month-1){
                     $paquete_mes_anterior = false;
-                    return false;
+
                 }else if($item["fecha"]->month!=Carbon::now()->month){
                     $paquete_mes_anterior = true;
                     return false;
@@ -803,45 +803,43 @@ class PaqueteIncentivoController extends Controller
                     'Asesor: '.$lineas->first()->user->name
                 );
 
-                $groupedString = $lineas->map(function ($item, $key) {
-                    $item->valor = (string) $item->valor;
-                    return $item;
-                });
+                //lado derecho
 
-                $grouped = $groupedString->groupBy('valor');
+                $group_by_paq = $lineas->groupBy('paquete');
                 $count=0;
 
-                $grouped->each(function ($item, $key) use ($sheet,&$count,$lineas){
+                $group_by_paq->each(function ($item, $key) use ($sheet,&$count,$lineas){
+
                     $sheet->setCellValue(
                         'G'.(count($lineas)+10+$count),
-                        $item->count('id').' x '.$key.' = $'.$item->sum('valor')
+                        $item->count('id').' x '.$key
                     );
                     $count++;
+
+                    $filter = $lineas->filter(function ($linea) use ($key){
+                        return $linea->paquete == $key;
+                    });
+
+                    $groupedString = $filter->map(function ($item, $key) {
+                        $item->valor = (string) $item->valor;
+                        return $item;
+                    });
+
+                    $group_by_valor = $groupedString->groupBy('valor');
+
+                    $group_by_valor->each(function ($item,$key) use ($sheet,$lineas,&$count){
+                        $sheet->setCellValue(
+                            'H'.(count($lineas)+10+$count),
+                            $item->count('id').' x $'.$key.' = $'.$item->sum('valor')
+                        );
+                        $count++;
+                    });
                 });
 
                 $sheet->setCellValue(
-                    'G'.(count($lineas)+10+$count),
+                    'L'.(count($lineas)+10),
                     'TOTAL: $'.($lineas->sum('valor'))
                 );
-
-                //otro lado
-
-                $grouped = $groupedString->groupBy('paquete');
-                $count=0;
-
-                $grouped->each(function ($item, $key) use ($sheet,&$count,$lineas){
-                    $sheet->setCellValue(
-                        'L'.(count($lineas)+10+$count),
-                        $item->count('id').' x '.$key.' = $'.$item->sum('valor')
-                    );
-                    $count++;
-                });
-
-                $sheet->setCellValue(
-                    'L'.(count($lineas)+10+$count),
-                    'TOTAL: $'.($lineas->sum('valor'))
-                );
-
             });
         })->export('xlsx');
 
