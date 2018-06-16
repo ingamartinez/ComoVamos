@@ -35,6 +35,19 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-4">
+                            <div class="form-group has-feedback has-success">
+                                <label for="supervisor">Supervisor</label>
+                                <select id="supervisor" name="supervisor" class="form-control">
+                                    <option value="">Escoja un Supervisor</option>
+                                    @foreach($supervisores as $supervisor)
+                                        <option {{$supervisor->id == $supervisor_r ? "selected=selected" :""}} value="{{$supervisor->id}}" >{{$supervisor->name}} </option>
+                                    @endforeach
+                                </select>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4">
                             <div class="form-group">
                                 <br>
                                 <button type="submit" form="formFiltrarFecha" class="btn btn-success">Filtrar</button>
@@ -138,9 +151,9 @@
                     </thead>
                     <tbody>
                     @foreach($resumenPorAsesor as $asesor)
-                        <tr>
+                        <tr data-id="{{$asesor->id}}">
                             <th scope="row">{{$asesor->cantidad}}</th>
-                            <td>{{$asesor->name}}</td>
+                            <td class="detalle_asesor"><a href="#">{{$asesor->name}}</a></td>
                             <td>${{$asesor->valor}}</td>
                         </tr>
                     @endforeach
@@ -156,7 +169,10 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('modals')
+    @include('administrativos.includes.modal_detalle_asesor')
 @endsection
 
 @push('script')
