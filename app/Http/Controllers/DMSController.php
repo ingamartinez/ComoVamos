@@ -66,8 +66,8 @@ class DMSController extends Controller
                         'epin' => $row['serve_pin_tigo'],
                         'simcard' => $row['servsimcard_tigo'],
                         'mbox' => $row['servmbox'],
-                        'saldo' => $row['saldo'],
-                        'fecha_saldo' => Carbon::createFromFormat('d/m/Y',$row['fecha_saldo']),
+//                        'saldo' => $row['saldo'],
+//                        'fecha_saldo' => Carbon::createFromFormat('d/m/Y',$row['fecha_saldo']),
                         'tipo_punto' => $row['tipo']
                     ]
                 );
