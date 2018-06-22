@@ -556,7 +556,7 @@ class PaqueteIncentivoController extends Controller
             if (!$paquete_mes_anterior){
                 $sorted->each(function ($item, $key) use (&$tipo_paquete){
                     $paq = $this->tipoPaquete($item);
-                    if ($paq["paquete_id"]) {
+                    if (isset($paq["paquete_id"])) {
                         $tipo_paquete = $paq;
                         return false;
                     }
