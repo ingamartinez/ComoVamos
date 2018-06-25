@@ -21,7 +21,7 @@ class PaqueteIncentivoController extends Controller
         $paquetes="";
 
         if (auth()->user()->hasRole('Administrador')){
-            $paquetes= PaqueteIncentivo::all()->take(40);
+            $paquetes= PaqueteIncentivo::all();
         }elseif(auth()->user()->hasRole('Asesor')){
             $paquetes= PaqueteIncentivo::where('users_id','=',auth()->user()->id)->get();
         }
