@@ -128,7 +128,7 @@ class PaqueteIncentivoController extends Controller
                     if ($mesPaquete==$mesActual-1){
                         $paquete_incentivo->valor = 1500;
                     }else{
-                        $paquete_incentivo->valor = 2000;
+                        $paquete_incentivo->valor = 3000;
                     }
                     break;
                 case "10k":
