@@ -128,7 +128,11 @@ class PaqueteIncentivoController extends Controller
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 1500;
 //                    }else{
+                    if ($diaPaquete==29 || $diaPaquete==30){
+                        $paquete_incentivo->valor = 4000;
+                    }else{
                         $paquete_incentivo->valor = 3000;
+                    }
 //                    }
                     break;
                 case "10k":
@@ -139,7 +143,11 @@ class PaqueteIncentivoController extends Controller
 //                            $paquete_incentivo->valor = 1500;
 //                        }
 //                    }else{
+                    if ($diaPaquete==29 || $diaPaquete==30){
+                        $paquete_incentivo->valor = 4000;
+                    }else{
                         $paquete_incentivo->valor = 3000;
+                    }
 //                    }
 
                     break;
@@ -151,28 +159,44 @@ class PaqueteIncentivoController extends Controller
 //                            $paquete_incentivo->valor = 2000;
 //                        }
 //                    }else{
+                    if ($diaPaquete==29 || $diaPaquete==30){
+                        $paquete_incentivo->valor = 4000;
+                    }else{
                         $paquete_incentivo->valor = 3000;
+                    }
 //                    }
                     break;
                 case "bolsa":
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 2000;
 //                    }else{
+                    if ($diaPaquete==29 || $diaPaquete==30){
+                        $paquete_incentivo->valor = 4000;
+                    }else{
                         $paquete_incentivo->valor = 3000;
+                    }
 //                    }
                     break;
                 case "datos":
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 2000;
 //                    }else{
+                    if ($diaPaquete==29 || $diaPaquete==30){
+                        $paquete_incentivo->valor = 4000;
+                    }else{
                         $paquete_incentivo->valor = 3000;
+                    }
 //                    }
                     break;
                 case "minutera":
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 2000;
 //                    }else{
+                    if ($diaPaquete==29 || $diaPaquete==30){
+                        $paquete_incentivo->valor = 4000;
+                    }else{
                         $paquete_incentivo->valor = 3000;
+                    }
 //                    }
                     break;
             }
