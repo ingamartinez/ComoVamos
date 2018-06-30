@@ -128,7 +128,7 @@ class PaqueteIncentivoController extends Controller
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 1500;
 //                    }else{
-                    if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                    if ($diaPaquete==29 || $diaPaquete==30){
                         $paquete_incentivo->valor = 4000;
                     }else{
                         $paquete_incentivo->valor = 3000;
@@ -143,7 +143,7 @@ class PaqueteIncentivoController extends Controller
 //                            $paquete_incentivo->valor = 1500;
 //                        }
 //                    }else{
-                    if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                    if ($diaPaquete==29 || $diaPaquete==30){
                         $paquete_incentivo->valor = 4000;
                     }else{
                         $paquete_incentivo->valor = 3000;
@@ -159,7 +159,7 @@ class PaqueteIncentivoController extends Controller
 //                            $paquete_incentivo->valor = 2000;
 //                        }
 //                    }else{
-                    if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                    if ($diaPaquete==29 || $diaPaquete==30){
                         $paquete_incentivo->valor = 4000;
                     }else{
                         $paquete_incentivo->valor = 3000;
@@ -170,7 +170,7 @@ class PaqueteIncentivoController extends Controller
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 2000;
 //                    }else{
-                    if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                    if ($diaPaquete==29 || $diaPaquete==30){
                         $paquete_incentivo->valor = 4000;
                     }else{
                         $paquete_incentivo->valor = 3000;
@@ -181,7 +181,7 @@ class PaqueteIncentivoController extends Controller
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 2000;
 //                    }else{
-                    if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                    if ($diaPaquete==29 || $diaPaquete==30){
                         $paquete_incentivo->valor = 4000;
                     }else{
                         $paquete_incentivo->valor = 3000;
@@ -192,7 +192,7 @@ class PaqueteIncentivoController extends Controller
 //                    if ($mesPaquete==$mesActual-1){
 //                        $paquete_incentivo->valor = 2000;
 //                    }else{
-                    if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                    if ($diaPaquete==29 || $diaPaquete==30){
                         $paquete_incentivo->valor = 4000;
                     }else{
                         $paquete_incentivo->valor = 3000;
@@ -225,7 +225,7 @@ class PaqueteIncentivoController extends Controller
 //                        if ($mesPaquete==$mesActual-1){
 //                            $paquete_incentivo->valor = 1500;
 //                        }else{
-                        if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                        if ($diaPaquete==29 || $diaPaquete==30){
                             $paquete_incentivo->valor = 4000;
                         }else{
                             $paquete_incentivo->valor = 3000;
@@ -240,7 +240,7 @@ class PaqueteIncentivoController extends Controller
 //                                $paquete_incentivo->valor = 1500;
 //                            }
 //                        }else{
-                        if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                        if ($diaPaquete==29 || $diaPaquete==30){
                             $paquete_incentivo->valor = 4000;
                         }else{
                             $paquete_incentivo->valor = 3000;
@@ -267,7 +267,7 @@ class PaqueteIncentivoController extends Controller
 //                        if ($mesPaquete==$mesActual-1){
 //                            $paquete_incentivo->valor = 2000;
 //                        }else{
-                        if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                        if ($diaPaquete==29 || $diaPaquete==30){
                             $paquete_incentivo->valor = 4000;
                         }else{
                             $paquete_incentivo->valor = 3000;
@@ -278,7 +278,7 @@ class PaqueteIncentivoController extends Controller
 //                        if ($mesPaquete==$mesActual-1){
 //                            $paquete_incentivo->valor = 2000;
 //                        }else{
-                        if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                        if ($diaPaquete==29 || $diaPaquete==30){
                             $paquete_incentivo->valor = 4000;
                         }else{
                             $paquete_incentivo->valor = 3000;
@@ -289,7 +289,7 @@ class PaqueteIncentivoController extends Controller
 //                        if ($mesPaquete==$mesActual-1){
 //                            $paquete_incentivo->valor = 2000;
 //                        }else{
-                        if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                        if ($diaPaquete==29 || $diaPaquete==30){
                             $paquete_incentivo->valor = 4000;
                         }else{
                             $paquete_incentivo->valor = 3000;
