@@ -205,8 +205,8 @@ class PaqueteIncentivoController extends Controller
 
             return response()->json($info,200);
         }else
-//            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
-            if ($mesPaquete==$mesActual){
+            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
+//            if ($mesPaquete==$mesActual){
                 $paquete_incentivo = new PaqueteIncentivo();
                 $paquete_incentivo->movil = $numero;
                 $paquete_incentivo->paquete = $paquete->tipo_paquete["paquete_id"];
@@ -256,7 +256,7 @@ class PaqueteIncentivoController extends Controller
 //                                $paquete_incentivo->valor = 2000;
 //                            }
 //                        }else{
-                        if ($diaPaquete==28 || $diaPaquete==29 || $diaPaquete==30){
+                        if ($diaPaquete==29 || $diaPaquete==30){
                             $paquete_incentivo->valor = 4000;
                         }else{
                             $paquete_incentivo->valor = 3000;
@@ -415,8 +415,8 @@ class PaqueteIncentivoController extends Controller
         if($info["simcard"]["first_call"]){
             return response()->json($info,200);
         }else
-            if ($mesPaquete==$mesActual){
-//            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
+//            if ($mesPaquete==$mesActual){
+            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
             return response()->json($info,200);
         }else{
             $info["mensaje"]="Simcard no valida para Incentivo";
