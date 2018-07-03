@@ -428,7 +428,7 @@ class PaqueteIncentivoController extends Controller
         $client = new \Goutte\Client();
         $login = 'http://10.69.44.78:8080/Login.asp?submit1=Ingresar&Usuario=JS1052957402&password=%40mcomSAnov2017';
         $query = "http://10.69.44.78:8080/query.asp?IMSI=&MSISDN=57$numero&Consultar.x=0&Consultar.y=0";
-        $historico = "http://10.69.44.78:8080/Recargas_ajustes_historico.asp?FECHAINI=1%2F1%2F2018&FECHAFIN=6%2F30%2F2018&MSISDN=$numero&Consultar.x=0&Consultar.y=0";
+        $historico = "http://10.69.44.78:8080/Recargas_ajustes_historico.asp?FECHAINI=1%2F1%2F2018&FECHAFIN=7%2F31%2F2018&MSISDN=$numero&Consultar.x=0&Consultar.y=0";
 
         $client->request('GET', $login);
         $crawler = $client->request('GET', $query);
