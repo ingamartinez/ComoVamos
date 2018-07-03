@@ -222,79 +222,71 @@ class PaqueteIncentivoController extends Controller
                         $paquete_incentivo->valor = 1000;
                         break;
                     case "6k":
-//                        if ($mesPaquete==$mesActual-1){
-//                            $paquete_incentivo->valor = 1500;
-//                        }else{
-                        if ($diaPaquete==29 || $diaPaquete==30){
-                            $paquete_incentivo->valor = 4000;
+                        if ($mesPaquete==$mesActual-1){
+                            if ($diaPaquete==29 || $diaPaquete==30){
+                                $paquete_incentivo->valor = 4000;
+                            }else{
+                                $paquete_incentivo->valor = 3000;
+                            }
                         }else{
-                            $paquete_incentivo->valor = 3000;
+                            $paquete_incentivo->valor = 1500;
                         }
-//                        }
                         break;
                     case "10k":
-//                        if ($mesPaquete==$mesActual-1){
-//                            if ($diaPaquete==29 || $diaPaquete==30 || $diaPaquete==31){
-//                                $paquete_incentivo->valor = 3000;
-//                            }else{
-//                                $paquete_incentivo->valor = 1500;
-//                            }
-//                        }else{
-                        if ($diaPaquete==29 || $diaPaquete==30){
-                            $paquete_incentivo->valor = 4000;
+                        if ($mesPaquete==$mesActual-1){
+                            if ($diaPaquete==29 || $diaPaquete==30){
+                                $paquete_incentivo->valor = 4000;
+                            }else{
+                                $paquete_incentivo->valor = 3000;
+                            }
                         }else{
                             $paquete_incentivo->valor = 3000;
                         }
-//                        }
 
                         break;
                     case "20k":
-//                        if ($mesPaquete==$mesActual-1){
-//                            if ($diaPaquete==29 || $diaPaquete==30 || $diaPaquete==31){
-//                                $paquete_incentivo->valor = 5000;
-//                            }else{
-//                                $paquete_incentivo->valor = 2000;
-//                            }
-//                        }else{
-                        if ($diaPaquete==29 || $diaPaquete==30){
-                            $paquete_incentivo->valor = 4000;
+                        if ($mesPaquete==$mesActual-1){
+                            if ($diaPaquete==29 || $diaPaquete==30){
+                                $paquete_incentivo->valor = 4000;
+                            }else{
+                                $paquete_incentivo->valor = 3000;
+                            }
                         }else{
-                            $paquete_incentivo->valor = 3000;
+                            $paquete_incentivo->valor = 4000;
                         }
-//                        }
                         break;
                     case "bolsa":
-//                        if ($mesPaquete==$mesActual-1){
-//                            $paquete_incentivo->valor = 2000;
-//                        }else{
-                        if ($diaPaquete==29 || $diaPaquete==30){
-                            $paquete_incentivo->valor = 4000;
+                        if ($mesPaquete==$mesActual-1){
+                            if ($diaPaquete==29 || $diaPaquete==30){
+                                $paquete_incentivo->valor = 3000;
+                            }else{
+                                $paquete_incentivo->valor = 3000;
+                            }
                         }else{
                             $paquete_incentivo->valor = 3000;
                         }
-//                        }
                         break;
                     case "datos":
-//                        if ($mesPaquete==$mesActual-1){
-//                            $paquete_incentivo->valor = 2000;
-//                        }else{
-                        if ($diaPaquete==29 || $diaPaquete==30){
-                            $paquete_incentivo->valor = 4000;
+                        if ($mesPaquete==$mesActual-1){
+                            if ($diaPaquete==29 || $diaPaquete==30){
+                                $paquete_incentivo->valor = 3000;
+                            }else{
+                                $paquete_incentivo->valor = 3000;
+                            }
                         }else{
                             $paquete_incentivo->valor = 3000;
                         }
-//                        }
                         break;
                     case "minutera":
-//                        if ($mesPaquete==$mesActual-1){
-//                            $paquete_incentivo->valor = 2000;
-//                        }else{
-                        if ($diaPaquete==29 || $diaPaquete==30){
-                            $paquete_incentivo->valor = 4000;
+                        if ($mesPaquete==$mesActual-1){
+                            if ($diaPaquete==29 || $diaPaquete==30){
+                                $paquete_incentivo->valor = 3000;
+                            }else{
+                                $paquete_incentivo->valor = 3000;
+                            }
                         }else{
                             $paquete_incentivo->valor = 3000;
                         }
-//                        }
                         break;
                 }
 
@@ -753,7 +745,14 @@ class PaqueteIncentivoController extends Controller
                                 $linea->movil_contacto,
                                 $linea->movil,
                                 $linea->fecha_paquete->format('d-m-y H:i:s'),
-                                "X"
+                                "X",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "✓"
                             ]);
                             break;
                         case "6k":
@@ -765,7 +764,13 @@ class PaqueteIncentivoController extends Controller
                                 $linea->movil,
                                 $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
-                                "X"
+                                "X",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "✓"
                             ]);
                             break;
                         case "10k":
@@ -778,7 +783,12 @@ class PaqueteIncentivoController extends Controller
                                 $linea->fecha_paquete->format('d-m-y H:i:s'),
                                 "",
                                 "",
-                                "X"
+                                "X",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "✓"
                             ]);
                             break;
                         case "20k":
@@ -792,7 +802,11 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "",
                                 "",
-                                "X"
+                                "X",
+                                "",
+                                "",
+                                "",
+                                "✓"
                             ]);
                             break;
                         case "bolsa":
@@ -807,7 +821,10 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "",
                                 "",
-                                "X"
+                                "X",
+                                "",
+                                "",
+                                "✓"
                             ]);
                             break;
                         case "datos":
@@ -823,7 +840,9 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "",
                                 "",
-                                "X"
+                                "X",
+                                "",
+                                "✓"
                             ]);
                             break;
                         case "minutera":
@@ -840,7 +859,8 @@ class PaqueteIncentivoController extends Controller
                                 "",
                                 "",
                                 "",
-                                "X"
+                                "X",
+                                "✓"
                             ]);
                             break;
                     }
