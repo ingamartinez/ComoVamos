@@ -105,10 +105,10 @@ class PaqueteIncentivoController extends Controller
 
         $mesActual=Carbon::now()->month;
 
-//        dd($info,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
+//        dd($info,$mesActivacion,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
 //        dd($request->idpdv);
 
-        if($info["simcard"]["first_call"]){
+        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
 
             $paquete_incentivo = new PaqueteIncentivo();
             $paquete_incentivo->movil = $numero;
@@ -197,97 +197,7 @@ class PaqueteIncentivoController extends Controller
 
             return response()->json($info,200);
         }else
-            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
-//            if ($mesPaquete==$mesActual){
-                $paquete_incentivo = new PaqueteIncentivo();
-                $paquete_incentivo->movil = $numero;
-                $paquete_incentivo->paquete = $paquete->tipo_paquete["paquete_id"];
-                $paquete_incentivo->fecha_paquete = $paquete->tipo_paquete["fecha"]->toDateTimeString();
-                $paquete_incentivo->movil_contacto = $request->numero_contacto;
-                $paquete_incentivo->dms_idpdv = $pdv->idpdv;
-                $paquete_incentivo->validado_sistema = 0;
-                $paquete_incentivo->validado_callcenter = 0;
-                $paquete_incentivo->users_id = auth()->user()->id;
-
-                switch ($paquete->tipo_paquete["paquete_id"]){
-                    case "4k":
-                        $paquete_incentivo->valor = 1000;
-                        break;
-                    case "6k":
-                        if ($mesPaquete==$mesActual-1){
-                            if ($diaPaquete==29 || $diaPaquete==30){
-                                $paquete_incentivo->valor = 4000;
-                            }else{
-                                $paquete_incentivo->valor = 3000;
-                            }
-                        }else{
-                            $paquete_incentivo->valor = 1500;
-                        }
-                        break;
-                    case "10k":
-                        if ($mesPaquete==$mesActual-1){
-                            if ($diaPaquete==29 || $diaPaquete==30){
-                                $paquete_incentivo->valor = 4000;
-                            }else{
-                                $paquete_incentivo->valor = 3000;
-                            }
-                        }else{
-                            $paquete_incentivo->valor = 3000;
-                        }
-
-                        break;
-                    case "20k":
-                        if ($mesPaquete==$mesActual-1){
-                            if ($diaPaquete==29 || $diaPaquete==30){
-                                $paquete_incentivo->valor = 4000;
-                            }else{
-                                $paquete_incentivo->valor = 3000;
-                            }
-                        }else{
-                            $paquete_incentivo->valor = 4000;
-                        }
-                        break;
-                    case "bolsa":
-                        if ($mesPaquete==$mesActual-1){
-                            if ($diaPaquete==29 || $diaPaquete==30){
-                                $paquete_incentivo->valor = 3000;
-                            }else{
-                                $paquete_incentivo->valor = 3000;
-                            }
-                        }else{
-                            $paquete_incentivo->valor = 3000;
-                        }
-                        break;
-                    case "datos":
-                        if ($mesPaquete==$mesActual-1){
-                            if ($diaPaquete==29 || $diaPaquete==30){
-                                $paquete_incentivo->valor = 3000;
-                            }else{
-                                $paquete_incentivo->valor = 3000;
-                            }
-                        }else{
-                            $paquete_incentivo->valor = 3000;
-                        }
-                        break;
-                    case "minutera":
-                        if ($mesPaquete==$mesActual-1){
-                            if ($diaPaquete==29 || $diaPaquete==30){
-                                $paquete_incentivo->valor = 3000;
-                            }else{
-                                $paquete_incentivo->valor = 3000;
-                            }
-                        }else{
-                            $paquete_incentivo->valor = 3000;
-                        }
-                        break;
-                }
-
-                $paquete_incentivo->save();
-
-                return response()->json($info,200);
-            }else{
-                return response()->json($info,404);
-            }
+            return response()->json($info,404);
     }
 
     /**
@@ -351,8 +261,9 @@ class PaqueteIncentivoController extends Controller
         $numero = preg_replace('/[^0-9]/', '', $request->numero);
 
         $paquete = $this->validarPaquete($numero);
+        $mesActivacion=$paquete->date_last_update->year;
 
-//        dd($paquete->tipo_paquete=="");
+//        dd($mesActivacion);
 
         $info="";
 
@@ -391,16 +302,12 @@ class PaqueteIncentivoController extends Controller
         }
 
         $mesPaquete=$paquete->tipo_paquete["fecha"]->month;
-
+        $mesActivacion=$paquete->date_last_update->month;
         $mesActual=Carbon::now()->month;
 
-//        dd($info,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
+//        dd($info,$mesActivacion);
 
-        if($info["simcard"]["first_call"]){
-            return response()->json($info,200);
-        }else
-//            if ($mesPaquete==$mesActual){
-            if ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1){
+        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
             return response()->json($info,200);
         }else{
             $info["mensaje"]="Simcard no valida para Incentivo";
