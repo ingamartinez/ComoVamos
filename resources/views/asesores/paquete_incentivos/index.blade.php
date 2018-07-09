@@ -125,67 +125,67 @@
                 </form>
             </div>
         </div><!-- end col -->
-    {{--</div><div class="row">--}}
-        {{--<div class="col-sm-12">--}}
-            {{--<div class="card-box table-responsive">--}}
-                {{--@if ($errors->any())--}}
-                    {{--<div class="alert alert-danger">--}}
-                        {{--<ul>--}}
-                            {{--@foreach ($errors->all() as $error)--}}
-                                {{--<li>{{ $error }}</li>--}}
-                            {{--@endforeach--}}
-                        {{--</ul>--}}
-                    {{--</div>--}}
-                {{--@endif--}}
+    </div><div class="row">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                {{--@include('flash::message')--}}
+                @include('flash::message')
 
-                {{--<h4 class="header-title m-t-0 m-b-30">Mis Lineas</h4>--}}
+                <h4 class="header-title m-t-0 m-b-30">Mis Lineas</h4>
 
-                {{--<table id="datatable" class="table table-striped table-bordered">--}}
-                    {{--<thead>--}}
-                    {{--<tr>--}}
-                        {{--<th>Movil Incentivo</th>--}}
-                        {{--<th>Paquete</th>--}}
-                        {{--<th>Fecha Paquete</th>--}}
-                        {{--<th>Movil Contacto</th>--}}
-                        {{--<th>ID PDV</th>--}}
-                        {{--<th>Nombre PDV</th>--}}
-                        {{--<th>Validado Sistemas</th>--}}
-                        {{--<th>Validado Call Center</th>--}}
-                        {{--<th>Creación</th>--}}
-                        {{--<th>Última Modificación</th>--}}
-                    {{--</tr>--}}
-                    {{--</thead>--}}
+                <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Movil Incentivo</th>
+                        <th>Paquete</th>
+                        <th>Fecha Paquete</th>
+                        <th>Movil Contacto</th>
+                        <th>ID PDV</th>
+                        <th>Nombre PDV</th>
+                        <th>Validado Sistemas</th>
+                        <th>Validado Call Center</th>
+                        <th>Creación</th>
+                        <th>Última Modificación</th>
+                    </tr>
+                    </thead>
 
-                    {{--<tbody>--}}
-                    {{--@foreach($paquetes as $paquete)--}}
-                        {{--<tr data-id="{{$paquete->id}}" class="{{($paquete->trashed() ? 'danger': false)}}">--}}
-                            {{--<td>{{$paquete->movil}}</td>--}}
-                            {{--<td>{{$paquete->paquete}}</td>--}}
-                            {{--<td>{{$paquete->fecha_paquete}}</td>--}}
-                            {{--<td>{{$paquete->movil_contacto}}</td>--}}
-                            {{--<td>{{$paquete->dms->idpdv}}</td>--}}
-                            {{--@if(strlen($paquete->dms->nombre_punto)>=30)--}}
-                                {{--<td>{{substr($paquete->dms->nombre_punto,'0','30')}}...</td>--}}
-                            {{--@else--}}
-                                {{--<td>{{$paquete->dms->nombre_punto}}</td>--}}
-                            {{--@endif--}}
+                    <tbody>
+                    @foreach($paquetes as $paquete)
+                        <tr data-id="{{$paquete->id}}" class="{{($paquete->trashed() ? 'danger': false)}}">
+                            <td>{{$paquete->movil}}</td>
+                            <td>{{$paquete->paquete}}</td>
+                            <td>{{$paquete->fecha_paquete}}</td>
+                            <td>{{$paquete->movil_contacto}}</td>
+                            <td>{{$paquete->dms->idpdv}}</td>
+                            @if(strlen($paquete->dms->nombre_punto)>=30)
+                                <td>{{substr($paquete->dms->nombre_punto,'0','30')}}...</td>
+                            @else
+                                <td>{{$paquete->dms->nombre_punto}}</td>
+                            @endif
 
-                            {{--<td>{{$paquete->validado_sistema ? "Si": "NO"}}</td>--}}
-                            {{--<td>{{$paquete->validado_callcenter ? "Si": "NO"}}</td>--}}
+                            <td>{{$paquete->validado_sistema ? "Si": "NO"}}</td>
+                            <td>{{$paquete->validado_callcenter ? "Si": "NO"}}</td>
 
-                            {{--<td>{{$paquete->created_at->format('Y-m-d h:i:sa')}}</td>--}}
-                            {{--<td>{{$paquete->updated_at->format('Y-m-d h:i:sa')}}</td>--}}
+                            <td>{{$paquete->created_at->format('Y-m-d h:i:sa')}}</td>
+                            <td>{{$paquete->updated_at->format('Y-m-d h:i:sa')}}</td>
 
-                        {{--</tr>--}}
-                    {{--@endforeach--}}
-                    {{--</tbody>--}}
-                {{--</table>--}}
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
 
-            {{--</div>--}}
-        {{--</div><!-- end col -->--}}
-    {{--</div>--}}
+            </div>
+        </div><!-- end col -->
+    </div>
 @endsection
 
 @section('modals')
