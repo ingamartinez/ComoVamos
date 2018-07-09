@@ -66,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
         'delete' => 'paq.delete'
     ]]);
 
+    Route::get('detalle-paquetes','ResumenController@detallePaquetes')->name('detalle.paquetes');
     Route::get('detalle-paquetes-vendedor','ResumenController@detallePaquetesAsesor')->name('detalle.asesor');
     Route::resource('resumen-incentivos','ResumenController',['names'=>[
         'store' => 'resumen-incentivo.store',

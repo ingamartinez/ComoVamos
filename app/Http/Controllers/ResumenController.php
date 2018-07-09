@@ -130,6 +130,7 @@ class ResumenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //Detalle para el supervisor
     public function detallePaquetesAsesor(Request $request)
     {
         $fechaInicial=$request->input('fechaInicial');
@@ -157,6 +158,59 @@ class ResumenController extends Controller
 
 //        dd($resumenPorPaquete,$request->all());
         return response()->json($resumenPorPaquete,202);
+    }
+
+    //Detalle para el asesor
+    public function detallePaquetes(Request $request)
+    {
+        $fechaInicial=$request->input('fechaInicial');
+        $fechaFinal=$request->input('fechaFinal');
+        $supervisor_r = $request->input('supervisor');
+
+        if (!isset($fechaInicial) or !isset($fechaInicial)){
+            $fechaInicial=Carbon::now()->startOfDay()->toDateTimeString();
+            $fechaFinal=Carbon::now()->endOfDay()->toDateTimeString();
+        }else{
+            $fechaInicial=Carbon::parse($fechaInicial)->startOfDay()->toDateTimeString();
+            $fechaFinal=Carbon::parse($fechaFinal)->endOfDay()->toDateTimeString();
+        }
+
+        $resumenPorPaquete= \DB::table('users')
+            ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+            ->join('users as supervisores',"users.users_id",'supervisores.id')
+            ->select(
+                'paquetes_incentivos.paquete',
+                \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+            )
+            ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+            ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+            ->where('supervisores.id','=',$supervisor_r)
+            ->groupBy('paquetes_incentivos.paquete')
+        ->get();
+
+        $resumenPorPaqueteEstado_0= \DB::table('users')
+            ->join('paquetes_incentivos',"paquetes_incentivos.users_id",'users.id')
+            ->select(
+                'paquetes_incentivos.paquete',
+                \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
+                \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
+            )
+            ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
+            ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
+            ->where('supervisores.id','=',$supervisor_r)
+            ->groupBy('paquetes_incentivos.paquete')
+            ->get();
+
+
+        $supervisores=User::role('Supervisor')->get();
+
+//        dd($supervisor_r);
+
+        $fechaInicial=Carbon::parse($fechaInicial);
+        $fechaFinal=Carbon::parse($fechaFinal);
+
+        return view('asesores.resumen_paquetes.index',compact('resumenPorPaquete','fechaInicial','fechaFinal'));
     }
     /**
      * Show the form for creating a new resource.
