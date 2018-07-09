@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-md-7 col-md-offset-2">
             <div class="card-box">
                 <h2>Paquetes pendientes por legalizar</h2>
 
@@ -25,7 +25,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($resumenPorPaquete as $paquete)
+                        @foreach($resumenPorPaqueteEstado_0 as $paquete)
                             <tr>
                                 <th scope="row">{{$paquete->cantidad}}</th>
                                 <td>{{$paquete->paquete}}</td>
@@ -36,27 +36,25 @@
                         </tbody>
                         <tfoot style="border-top: 2px solid #8d8d8d;">
                         <tr>
-                            <th>{{$resumenPorPaquete->sum('cantidad')}}</th>
+                            <th>{{$resumenPorPaqueteEstado_0->sum('cantidad')}}</th>
                             <th></th>
-                            <th>${{$resumenPorPaquete->sum('valor')}}</th>
+                            <th>${{$resumenPorPaqueteEstado_0->sum('valor')}}</th>
                         </tr>
                         </tfoot>
 
                     </table>
                 </div>
-
-
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-9 col-md-offset-1">
             <div class="card-box">
                 @php(setlocale(LC_TIME, 'Spanish'))
                 @php(\Carbon\Carbon::setUtf8(true))
                 <h2>{{$fechaInicial->formatLocalized('%A %d %B %Y') }} -> {{$fechaFinal->formatLocalized('%A %d %B %Y') }}</h2>
 
-                <form method="GET" action="{{url('resumen-incentivos')}}" id="formFiltrarFecha" role="form" data-toggle="validator" autocomplete="off" novalidate="true">
+                <form method="GET" action="{{url('detalle-paquetes')}}" id="formFiltrarFecha" role="form" data-toggle="validator" autocomplete="off" novalidate="true">
                     <div class="row">
                         <div class="col-lg-3 col-md-4">
                             <div class="form-group has-feedback has-success">
@@ -88,7 +86,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4 col-md-offset-1">
+        <div class="col-md-9 col-md-offset-1">
             <div class="card-box">
 
                 <h3>Resumen Por Paquete</h3>

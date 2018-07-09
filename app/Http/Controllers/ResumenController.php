@@ -185,7 +185,7 @@ class ResumenController extends Controller
             )
             ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
             ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
-            ->where('supervisores.id','=',$supervisor_r)
+            ->where('paquetes_incentivos.users_id','=',\Auth::user()->id)
             ->groupBy('paquetes_incentivos.paquete')
         ->get();
 
@@ -196,21 +196,16 @@ class ResumenController extends Controller
                 \DB::raw('Sum(paquetes_incentivos.valor) as valor'),
                 \DB::raw('Count(paquetes_incentivos.movil) as cantidad')
             )
-            ->where('paquetes_incentivos.created_at','>=',$fechaInicial)
-            ->where('paquetes_incentivos.created_at','<=',$fechaFinal)
-            ->where('supervisores.id','=',$supervisor_r)
+            ->where('paquetes_incentivos.users_id','=',\Auth::user()->id)
+            ->where('paquetes_incentivos.validado_sistema','=',0)
             ->groupBy('paquetes_incentivos.paquete')
             ->get();
 
 
-        $supervisores=User::role('Supervisor')->get();
-
-//        dd($supervisor_r);
-
         $fechaInicial=Carbon::parse($fechaInicial);
         $fechaFinal=Carbon::parse($fechaFinal);
 
-        return view('asesores.resumen_paquetes.index',compact('resumenPorPaquete','fechaInicial','fechaFinal'));
+        return view('asesores.resumen_paquetes.index',compact('resumenPorPaquete','resumenPorPaqueteEstado_0','fechaInicial','fechaFinal'));
     }
     /**
      * Show the form for creating a new resource.
