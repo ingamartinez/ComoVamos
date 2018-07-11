@@ -63,7 +63,7 @@ class DMSController extends Controller
                         'distribuidor' => $row['distribuidor'],
                         'moviles_epin' => substr($row['moviles_epin'],'0','44'),
                         'cod_sub' => $row['cod.sub'],
-                        'epin' => $row['serve_pin_tigo'],
+                        'epin' => $row['servepin_tigo'],
                         'simcard' => $row['servsimcard_tigo'],
                         'mbox' => $row['servmbox'],
 //                        'saldo' => $row['saldo'],
