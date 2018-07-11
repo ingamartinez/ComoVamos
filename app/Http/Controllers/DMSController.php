@@ -43,7 +43,7 @@ class DMSController extends Controller
             $results->each(function($row) {
                 Dms::updateOrCreate(
                     [
-                        'idpdv' => $row['cod.punto']
+                        'idpdv' => $row['cod_punto']
                     ],
                     [
                         'nombre_punto' => $row['punto'],
