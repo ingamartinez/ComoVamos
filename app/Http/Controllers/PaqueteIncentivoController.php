@@ -108,8 +108,8 @@ class PaqueteIncentivoController extends Controller
 //        dd($info,$mesActivacion,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
 //        dd($request->idpdv);
 
-//        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
-        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual)){
+        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
+//        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual)){
 
             $paquete_incentivo = new PaqueteIncentivo();
             $paquete_incentivo->movil = $numero;
@@ -308,8 +308,8 @@ class PaqueteIncentivoController extends Controller
 
 //        dd($info,$mesActivacion);
 
-//        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
-        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual)){
+        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
+//        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual)){
             return response()->json($info,200);
         }else{
             $info["mensaje"]="Simcard no valida para Incentivo";
@@ -481,10 +481,10 @@ class PaqueteIncentivoController extends Controller
             $paquete_mes_anterior=false;
 
             $sorted->each(function ($item, $key) use (&$paquete_mes_anterior){
-//                if($item["fecha"]->month==Carbon::now()->month-1){
-//                    $paquete_mes_anterior = false;
-//
-//                }else
+                if($item["fecha"]->month==Carbon::now()->month-1){
+                    $paquete_mes_anterior = false;
+
+                }else
                 if($item["fecha"]->month!=Carbon::now()->month){
                     $paquete_mes_anterior = true;
                     return false;
