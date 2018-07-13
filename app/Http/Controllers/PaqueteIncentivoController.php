@@ -266,7 +266,6 @@ class PaqueteIncentivoController extends Controller
 
 //        dd($mesActivacion);
 
-        $info="";
 
         if($paquete->tipo_paquete==""){
             $info = collect([
@@ -505,6 +504,24 @@ class PaqueteIncentivoController extends Controller
             }
 
             $data->tipo_paquete= $tipo_paquete;
+
+            $mesActivacion=$data->date_last_update->month;
+
+            $mesesValidos=collect([7,6,5]);
+            $mesValido=false;
+
+            $mesesValidos->each(function ($item, $key) use (&$mesValido,$mesActivacion,&$tipo_paquete){
+
+                if($item==$mesActivacion){
+                    $mesValido = true;
+                    return false;
+                }
+
+            });
+
+            if(!$mesValido){
+                $data->tipo_paquete="";
+            }
 
 //            dd($data->tipo_paquete);
 
