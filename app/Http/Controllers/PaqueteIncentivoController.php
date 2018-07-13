@@ -534,9 +534,9 @@ class PaqueteIncentivoController extends Controller
         switch ($paquete["tipo_recurso"]){
             case "Megabytes":
                 switch ($paquete["recurso"]){
-                    case "100":
-                        $paquete["paquete_id"]="4k";
-                        break;
+//                    case "100":
+//                        $paquete["paquete_id"]="4k";
+//                        break;
 
                     case "120":
                         $paquete["paquete_id"]="6k";
