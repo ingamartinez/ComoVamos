@@ -519,9 +519,9 @@ class PaqueteIncentivoController extends Controller
 
             });
 
-            if(!$mesValido){
-                $data->tipo_paquete="";
-            }
+//            if(!$mesValido){
+//                $data->tipo_paquete="";
+//            }
 
 //            dd($data->tipo_paquete);
 
