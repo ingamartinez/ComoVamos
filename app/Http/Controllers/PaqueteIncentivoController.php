@@ -553,9 +553,10 @@ class PaqueteIncentivoController extends Controller
                     case "500":
                         if($paquete["dias_recurso"]==7||$paquete["dias_recurso"]==10){
                             $paquete["paquete_id"]="datos";
-                        }elseif($paquete["dias_recurso"]==3){
-                            $paquete["paquete_id"]="4k";
                         }
+//                        elseif($paquete["dias_recurso"]==3){
+//                            $paquete["paquete_id"]="4k";
+//                        }
                         break;
                     case "562":
                         $paquete["paquete_id"]="datos";
