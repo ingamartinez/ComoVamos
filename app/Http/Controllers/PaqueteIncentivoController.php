@@ -507,7 +507,8 @@ class PaqueteIncentivoController extends Controller
 
             $mesActivacion=$data->date_last_update->month;
 
-            $mesesValidos=collect([7,6,5]);
+//            $mesesValidos=collect([7,6,5]);
+            $mesesValidos=collect([1,2,3,4,5,6,7,8,9,10,11,12]);
             $mesValido=false;
 
             $mesesValidos->each(function ($item, $key) use (&$mesValido,$mesActivacion,&$tipo_paquete){
