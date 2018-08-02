@@ -105,7 +105,7 @@ class PaqueteIncentivoController extends Controller
 
         $mesActual=Carbon::now()->month;
 
-//        dd($info,$mesActivacion,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
+//   dd($info,$mesActivacion,$mesActivacion==$mesActual,$mesPaquete==$mesActual);
 //        dd($request->idpdv);
 
 //        if($info["simcard"]["first_call"] || ($mesPaquete==$mesActual || $mesPaquete==$mesActual-1)){
@@ -320,7 +320,7 @@ class PaqueteIncentivoController extends Controller
         $client = new \Goutte\Client();
         $login = 'http://10.69.44.78:8080/Login.asp?submit1=Ingresar&Usuario=JS1052957402&password=Agosto%40mcomsa2018';
         $query = "http://10.69.44.78:8080/query.asp?IMSI=&MSISDN=57$numero&Consultar.x=0&Consultar.y=0";
-        $historico = "http://10.69.44.78:8080/Recargas_ajustes_historico.asp?FECHAINI=1%2F1%2F2018&FECHAFIN=7%2F31%2F2018&MSISDN=$numero&Consultar.x=0&Consultar.y=0";
+        $historico = "http://10.69.44.78:8080/Recargas_ajustes_historico.asp?FECHAINI=1%2F1%2F2018&FECHAFIN=8%2F31%2F2018&MSISDN=$numero&Consultar.x=0&Consultar.y=0";
 
         $client->request('GET', $login);
         $crawler = $client->request('GET', $query);
@@ -507,7 +507,7 @@ class PaqueteIncentivoController extends Controller
 
             $mesActivacion=$data->date_last_update->month;
 
-            $mesesValidos=collect([7,6,5]);
+            $mesesValidos=collect([8,7,6]);
 //            $mesesValidos=collect([1,2,3,4,5,6,7,8,9,10,11,12]);
             $mesValido=false;
 
